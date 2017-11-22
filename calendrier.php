@@ -69,7 +69,7 @@ $utilisateursATrouver = \App\ProtoControllers\Groupe\Utilisateur::getListUtilisa
 
 $employesATrouver = [];
 foreach ($utilisateursATrouver as $nom) {
-    $employe = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($nom);
+    $employe = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($nom)[$nom];
     $employesATrouver[$nom] = \App\ProtoControllers\Utilisateur::getNomComplet($employe['u_prenom'], $employe['u_nom'], true);
 }
 

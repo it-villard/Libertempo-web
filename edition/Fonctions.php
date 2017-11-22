@@ -239,7 +239,7 @@ class Fonctions
 
         /*************************************/
 
-        if ($user_login != $_SESSION['userlogin'] && !is_hr($_SESSION['userlogin']) && !is_resp_of_user($_SESSION['userlogin'] , $user_login)) {
+        if ($user_login != $_SESSION['userlogin'] && !is_hr($_SESSION['userlogin']) && !\App\ProtoControllers\Responsable::isRespDeUtilisateur($_SESSION['userlogin'] , $user_login)) {
             redirect(ROOT_PATH . 'deconnexion.php');
             exit;
         }
@@ -522,7 +522,7 @@ class Fonctions
         $return = '';
         /*************************************/
 
-        if ($user_login != $_SESSION['userlogin'] && !is_hr($_SESSION['userlogin']) && !is_resp_of_user($_SESSION['userlogin'] , $user_login)) {
+        if ($user_login != $_SESSION['userlogin'] && !is_hr($_SESSION['userlogin']) && !\App\ProtoControllers\Responsable::isRespDeUtilisateur($_SESSION['userlogin'] , $user_login)) {
             redirect(ROOT_PATH . 'deconnexion.php');
             exit;
         }
@@ -986,7 +986,7 @@ class Fonctions
         $edit_id = getpost_variable('edit_id', 0) ;
         /*************************************/
 
-        if ($user_login != $_SESSION['userlogin'] && !is_hr($_SESSION['userlogin']) && !is_resp_of_user($_SESSION['userlogin'] , $user_login)) {
+        if ($user_login != $_SESSION['userlogin'] && !is_hr($_SESSION['userlogin']) && !\App\ProtoControllers\Responsable::isRespDeUtilisateur($_SESSION['userlogin'] , $user_login)) {
             redirect(ROOT_PATH . 'deconnexion.php');
             exit;
         }

@@ -72,7 +72,7 @@ class Utilisateur
      */
     public static function isRH($utilisateur)
     {
-        $donneesUtilisateur = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($utilisateur);
+        $donneesUtilisateur = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($utilisateur)[$utilisateur];
 
         return (!empty($donneesUtilisateur))
             ? 'Y' === $donneesUtilisateur['u_is_hr']
@@ -89,7 +89,7 @@ class Utilisateur
      */
     public static function isAdmin($utilisateur)
     {
-        $donneesUtilisateur = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($utilisateur);
+        $donneesUtilisateur = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($utilisateur)[$utilisateur];
 
         return (!empty($donneesUtilisateur))
             ? 'Y' === $donneesUtilisateur['u_is_admin']
@@ -106,7 +106,7 @@ class Utilisateur
      */
     public static function isResponsable($utilisateur)
     {
-        $donneesUtilisateur = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($utilisateur);
+        $donneesUtilisateur = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($utilisateur)[$utilisateur];
 
         return (!empty($donneesUtilisateur))
             ? 'Y' === $donneesUtilisateur['u_is_resp']
@@ -120,15 +120,19 @@ class Utilisateur
      *
      * @return string $donnees
      */
-    public static function getDonneesUtilisateur($login)
+    public static function getDonneesUtilisateur($login = NIL_INT)
     {
         $sql = \includes\SQL::singleton();
+        $donnees = [];
         $req = 'SELECT *
-                FROM conges_users
-                WHERE u_login = \''.  \includes\SQL::quote($login).'\'';
-        $query = $sql->query($req);
-        $donnees = $query->fetch_array();
-
+                FROM conges_users ';
+        if($login != NIL_INT){
+            $req .= 'WHERE u_login = \''.  \includes\SQL::quote($login).'\'';
+        }
+        $res = $sql->query($req);
+        while ($data = $res->fetch_array()) {
+            $donnees[$data['u_login']] = $data;
+        }
         return $donnees;
     }
 
@@ -193,7 +197,36 @@ class Utilisateur
         return $solde;
     }
 
-     /**
+    /**
+     * Retourne le solde de tout les types de congés
+     * @todo passer l'option gestion_conges_exceptionnels en param
+     * après merge de #445
+     * 
+     * @param string $login
+     * 
+     * @return array
+     */
+    public static function getSoldesEmploye(\includes\SQL $sql, $login)
+    {
+        $soldes = [];
+        $req = 'SELECT ta_id, ta_libelle, su_nb_an, su_solde, su_reliquat 
+                FROM conges_solde_user, conges_type_absence 
+                WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id 
+                AND su_login = "'.\includes\SQL::quote($login).'" ';
+        if (!$_SESSION['config']['gestion_conges_exceptionnels']){
+            $req .= 'AND conges_type_absence.ta_type != \'conges_exceptionnels\'';
+        }
+        $req .= 'ORDER BY su_abs_id ASC;';
+        $res = \includes\SQL::query($req);
+
+        while ($infos = $res->fetch_assoc()) {
+            $soldes[$infos['ta_id']] = $infos;
+        }
+
+        return $soldes;
+    }
+
+    /**
      * Retourne le solde d'heure au format timestamp d'un utilisateur
      *
      * @param string $login
@@ -235,8 +268,12 @@ class Utilisateur
      * @return string $mail
      */
     public static function getEmailUtilisateur($login)  {
-        require_once ROOT_PATH.'fonctions_conges.php';
-        return find_email_adress_for_user($login)[1];
+        if($_SESSION['config']['export_users_from_ldap']){
+            $ldap = new \App\Libraries\Ldap();
+            return $ldap->getEmailUser($data['login']);
+        }
+
+        return static::getDonneesUtilisateur($login)["u_email"];
     }
 
     /**

@@ -29,7 +29,8 @@ class Planning extends \App\ProtoControllers\APlanning
             }
         }
 
-        $subalternes =  \App\ProtoControllers\Responsable::getUsersRespDirect($_SESSION['userlogin']);
+        $groupesId = \App\ProtoControllers\Responsable::getIdGroupeResp($_SESSION['userlogin']);
+        $subalternes = \App\ProtoControllers\Groupe\Utilisateur::getListUtilisateurByGroupeIds($groupesId);
         \App\ProtoControllers\Utilisateur::deleteListAssociationPlanning($id, $subalternes);
         $utilisateursAssocies = array_intersect($put['utilisateurs'], $subalternes);
         if (!empty($utilisateursAssocies)) {
@@ -55,7 +56,8 @@ class Planning extends \App\ProtoControllers\APlanning
     {
         $utilisateursAssocies = parent::getListeUtilisateursAssocies($idPlanning);
 
-        $subalternes = \App\ProtoControllers\Responsable::getUsersRespDirect($_SESSION['userlogin']);
+        $groupesId = \App\ProtoControllers\Responsable::getIdGroupeResp($_SESSION['userlogin']);
+        $subalternes = \App\ProtoControllers\Groupe\Utilisateur::getListUtilisateurByGroupeIds($groupesId);
 
         return $utilisateursAssocies = array_filter(
             $utilisateursAssocies,

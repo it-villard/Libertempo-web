@@ -2,9 +2,7 @@
     defined( '_PHP_CONGES' ) or die( 'Restricted access' );
     include TEMPLATE_PATH . 'template_define.php';
     $printable = getpost_variable('printable');
-    if (is_admin($_SESSION['userlogin'])) {
-        $home = 'admin/admin_index.php';
-    } elseif (is_hr($_SESSION['userlogin'])) {
+    if (is_hr($_SESSION['userlogin'])) {
         $home = 'hr/hr_index.php';
     } elseif (is_resp($_SESSION['userlogin'])) {
         $home = 'responsable/resp_index.php';
@@ -46,9 +44,7 @@
 
 function sousmenuAdmin()
 {
-    return '<a class="secondary" href="' . ROOT_PATH . 'admin/admin_index.php?onglet=admin-users">Utilisateurs</a>
-    <a class="secondary" href="' . ROOT_PATH . 'admin/admin_index.php?onglet=admin-group">Groupes</a>
-    <a class="secondary" href="' . ROOT_PATH . 'admin/admin_db_sauve.php">Backup</a>';
+    return '<a class="secondary" href="' . ROOT_PATH . 'admin/admin_db_sauve.php">Backup</a>';
 }
 
 function sousmenuConfiguration()
@@ -61,7 +57,8 @@ function sousmenuConfiguration()
 
 function sousmenuHR()
 {
-    $return = '<a class="secondary" href="' . ROOT_PATH . 'hr/hr_index.php?onglet=page_principale">Page principale</a>';
+    $return = '<a class="secondary" href="' . ROOT_PATH . 'hr/hr_index.php?onglet=page_principale">Utilisateurs</a>
+    <a class="secondary" href="' . ROOT_PATH . 'hr/hr_index.php?onglet=liste_groupe">Groupes</a>';
 
     if ($_SESSION['config']['user_saisie_demande']) {
         $return .= '<a class="secondary" href="' . ROOT_PATH . 'hr/hr_index.php?onglet=traitement_demandes">Validation de congés</a>';

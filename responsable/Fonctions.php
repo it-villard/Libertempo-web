@@ -1063,7 +1063,7 @@ class Fonctions
                         }
                     }
                     if ($_SESSION['config']['gestion_heures']) {
-                        $soldeHeure = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($current_login)['u_heure_solde'];
+                        $soldeHeure = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($current_login)[$current_login]['u_heure_solde'];
                         $return .= '<td>' . \App\Helpers\Formatter::timestamp2Duree($soldeHeure) . '</td>';
                     }
                     $return .= '<td>' . $text_affich_user . '</td>';
@@ -1116,7 +1116,7 @@ class Fonctions
                         }
                     }
                     if ($_SESSION['config']['gestion_heures']) {
-                        $soldeHeure = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($current_login_2)['u_heure_solde'];
+                        $soldeHeure = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($current_login_2)[$current_login_2]['u_heure_solde'];
                         $return .= '<td>' . \App\Helpers\Formatter::timestamp2Duree($soldeHeure) . '</td>';
                     }
                     $return .= '<td>' . $text_affich_user . '</td>';
@@ -1842,7 +1842,7 @@ class Fonctions
         };
         $userLogin = $entities(getpost_variable('user_login'));
 
-        if ( !is_resp_of_user($_SESSION['userlogin'] , $userLogin)) {
+        if ( !\App\ProtoControllers\Responsable::isRespDeUtilisateur($_SESSION['userlogin'] , $user_login)) {
             redirect(ROOT_PATH . 'deconnexion.php');
             exit;
         }
@@ -2419,7 +2419,8 @@ enctype="application/x-www-form-urlencoded" class="form-group">';
         $return = '';
         $utilisateursAssocies = \App\ProtoControllers\Responsable\Planning::getListeUtilisateursAssocies($idPlanning);
 
-        $subalternes = \App\ProtoControllers\Responsable::getUsersRespDirect($_SESSION['userlogin']);
+        $groupesId = \App\ProtoControllers\Responsable::getIdGroupeResp($_SESSION['userlogin']);
+        $subalternes = \App\ProtoControllers\Groupe\Utilisateur::getListUtilisateurByGroupeIds($groupesId);
 
         $utilisateursAssocies = array_filter(
             $utilisateursAssocies,

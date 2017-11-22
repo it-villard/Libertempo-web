@@ -929,7 +929,7 @@ class Gestion {
         $employes = [];
         $idsUtilisateurs = \App\ProtoControllers\Utilisateur::getListId(true);
         foreach ($idsUtilisateurs as $login){
-            $donnees = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($login);
+            $donnees = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($login)[$login];
             $employes[$login] = [
                 'nom' => $donnees['u_nom'],
                 'prenom' => $donnees['u_prenom'],
