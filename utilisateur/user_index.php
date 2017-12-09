@@ -8,10 +8,6 @@ include_once INCLUDE_PATH . 'fonction.php';
 include_once INCLUDE_PATH . 'session.php';
 include_once ROOT_PATH . 'fonctions_calcul.php';
 
-if ($_SESSION['config']['where_to_find_user_email'] == "ldap") {
-    include CONFIG_PATH . 'config_ldap.php';
-}
-
 // SERVER
 $PHP_SELF = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_URL);
 // GET / POST

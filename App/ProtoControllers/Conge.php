@@ -19,9 +19,6 @@ class Conge
     {
         $return = '';
         $errorsLst = [];
-        if ($_SESSION['config']['where_to_find_user_email'] == "ldap") {
-            include_once CONFIG_PATH . 'config_ldap.php';
-        }
 
         if (!empty($_POST) && !$this->isSearch($_POST)) {
             if (0 < (int) \utilisateur\Fonctions::postDemandeCongesHeure($_POST, $errorsLst)) {

@@ -132,8 +132,24 @@ class Utilisateur
         $res = $sql->query($req);
         while ($data = $res->fetch_array()) {
             $donnees[$data['u_login']] = $data;
+            if($_SESSION['config']['export_users_from_ldap']){
+                $ldap = new \App\Libraries\Ldap();
+                $donnees[$data['u_login']]['u_email'] = $ldap->getEmailUser($data['login']);
+            }
         }
         return $donnees;
+    }
+
+    /**
+     * Récupère l'adresse email de l'utilisateur
+     *
+     * @todo En attendant l'objet ldap utilisation de find_email_adress_for_user
+     *
+     * @param string $login
+     * @return string $mail
+     */
+    public static function getEmailUtilisateur($login)  {
+        return static::getDonneesUtilisateur($login)["u_email"];
     }
 
     /**
@@ -257,23 +273,6 @@ class Utilisateur
             || static::hasHeureReposEnCours($login)
             || static::hasHeureAdditionnelleEnCours($login)
         ;
-    }
-
-    /**
-     * Récupère l'adresse email de l'utilisateur
-     *
-     * @todo En attendant l'objet ldap utilisation de find_email_adress_for_user
-     *
-     * @param string $login
-     * @return string $mail
-     */
-    public static function getEmailUtilisateur($login)  {
-        if($_SESSION['config']['export_users_from_ldap']){
-            $ldap = new \App\Libraries\Ldap();
-            return $ldap->getEmailUser($data['login']);
-        }
-
-        return static::getDonneesUtilisateur($login)["u_email"];
     }
 
     /**

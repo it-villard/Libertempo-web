@@ -2,10 +2,6 @@
 defined('_PHP_CONGES') or die('Restricted access');
 $conge = new \App\ProtoControllers\Employe\Conge();
 
-if ($_SESSION['config']['where_to_find_user_email'] == "ldap") {
-    include_once CONFIG_PATH . 'config_ldap.php';
-}
-
 /**
  * Y-a-t-il une recherche dans l'avion ?
  *
@@ -50,7 +46,6 @@ if (empty($listId)) {
         $dataConges->$i = $data;
         $data->dateDebut = \App\Helpers\Formatter::dateIso2Fr($conges["p_date_deb"]);
         $data->periodeDebut = schars($conges["p_demi_jour_deb"] == "am" ? 'matin' : 'après-midi');
-
         $data->dateFin = \App\Helpers\Formatter::dateIso2Fr($conges["p_date_fin"]);
         $data->periodeFin = schars($conges["p_demi_jour_fin"] == "am" ? 'matin' : 'après-midi');
         $data->libelle = schars($conges["ta_libelle"]);

@@ -1,10 +1,6 @@
 <?php
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-if($_SESSION['config']['where_to_find_user_email']=="ldap"){
-    include_once CONFIG_PATH .'config_ldap.php';
-}
-
 $titre = _('user_change_password');
 $self = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_URL);
 
