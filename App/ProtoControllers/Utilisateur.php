@@ -134,7 +134,7 @@ class Utilisateur
             $donnees[$data['u_login']] = $data;
             if($_SESSION['config']['export_users_from_ldap']){
                 $ldap = new \App\Libraries\Ldap();
-                $donnees[$data['u_login']]['u_email'] = $ldap->getEmailUser($data['login']);
+                $donnees[$data['u_login']]['u_email'] = $ldap->getEmailUser($data['u_login']);
             }
         }
         return $donnees;
