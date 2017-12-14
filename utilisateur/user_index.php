@@ -21,16 +21,16 @@ $onglets = array();
 
 $onglets['liste_conge'] = _('user_conge');
 
-if ($_SESSION['config']['user_echange_rtt']) {
+if ($config->canUserEchangeRTT()) {
     $onglets['echange_jour_absence'] = _('user_onglet_echange_abs');
 }
 
-if ($_SESSION['config']['gestion_heures']) {
+if ($config->isHeuresAutorise()) {
     $onglets['liste_heure_repos'] = _('user_liste_heure_repos');
     $onglets['liste_heure_additionnelle'] = _('user_liste_heure_additionnelle');
 }
 
-if ($_SESSION['config']['auth'] && $_SESSION['config']['user_ch_passwd']) {
+if ($config->canUserChangePassword()) {
     $onglets['changer_mot_de_passe'] = _('user_onglet_change_passwd');
 }
 
