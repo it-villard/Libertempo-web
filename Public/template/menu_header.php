@@ -63,13 +63,8 @@ function sousmenuConfiguration()
 
 function sousmenuHR()
 {
-<<<<<<< HEAD:template/reboot/menu_header.php
     $return = '<a class="secondary" href="' . ROOT_PATH . 'hr/hr_index.php?onglet=page_principale">Utilisateurs</a>
     <a class="secondary" href="' . ROOT_PATH . 'hr/hr_index.php?onglet=liste_groupe">Groupes</a>';
-=======
-    $config = new \App\Libraries\Configuration(\includes\SQL::singleton());
-    $return = '<a class="secondary" href="' . ROOT_PATH . 'hr/hr_index.php?onglet=page_principale">Page principale</a>';
->>>>>>> develop:Public/template/menu_header.php
 
     if ($config->canUserSaisieDemande()) {
         $return .= '<a class="secondary" href="' . ROOT_PATH . 'hr/hr_index.php?onglet=traitement_demandes">Validation de congés</a>';
@@ -101,7 +96,7 @@ function sousmenuResponsable()
         $return .= '<a class="secondary" href="' . ROOT_PATH . 'responsable/resp_index.php?onglet=ajout_conges">Ajout de congés</a>';
     }
 
-    if ($_SESSION['config']['resp_association_planning']) {
+    if ($config->canResponsablesAssociatePlanning()) {
         $return .= '<a class="secondary" href="' . ROOT_PATH . 'responsable/resp_index.php?onglet=liste_planning">Plannings</a>';
     }
 

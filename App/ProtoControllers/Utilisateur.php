@@ -123,6 +123,7 @@ class Utilisateur
     public static function getDonneesUtilisateur($login = NIL_INT)
     {
         $sql = \includes\SQL::singleton();
+        $config = new \App\Libraries\Configuration($sql);
         $donnees = [];
         $req = 'SELECT *
                 FROM conges_users ';
@@ -132,7 +133,7 @@ class Utilisateur
         $res = $sql->query($req);
         while ($data = $res->fetch_array()) {
             $donnees[$data['u_login']] = $data;
-            if($_SESSION['config']['export_users_from_ldap']){
+            if($config->isUsersExportFromLdap()){
                 $ldap = new \App\Libraries\Ldap();
                 $donnees[$data['u_login']]['u_email'] = $ldap->getEmailUser($data['u_login']);
             }
@@ -222,14 +223,14 @@ class Utilisateur
      * 
      * @return array
      */
-    public static function getSoldesEmploye(\includes\SQL $sql, $login)
+    public static function getSoldesEmploye(\includes\SQL $sql, \App\Libraries\Configuration $config, $login)
     {
         $soldes = [];
         $req = 'SELECT ta_id, ta_libelle, su_nb_an, su_solde, su_reliquat 
                 FROM conges_solde_user, conges_type_absence 
                 WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id 
                 AND su_login = "'.\includes\SQL::quote($login).'" ';
-        if (!$_SESSION['config']['gestion_conges_exceptionnels']){
+        if (!$$config->isCongesExceptionnelsActive()){
             $req .= 'AND conges_type_absence.ta_type != \'conges_exceptionnels\'';
         }
         $req .= 'ORDER BY su_abs_id ASC;';
