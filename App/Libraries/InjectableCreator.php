@@ -15,15 +15,18 @@ use App\Libraries\Calendrier\Evenements;
 class InjectableCreator
 {
 
-    public function __construct(\includes\SQL $db)
+    public function __construct(\includes\SQL $db, \App\Libraries\Configuration $config)
     {
         $this->db = $db;
+        $this->config = $config;
     }
 
     /**
      * @var \includes\SQL
+     * @var \App\Libraries\Configuration
      */
     private $db;
+    private $config;
 
     /**
      * Retourne un injectable bien construit (avec ses propres dépendances)
@@ -40,6 +43,7 @@ class InjectableCreator
 
         switch ($classname) {
             case Evenements\Weekend::class:
+                return new $classname($this->db, $this->config);
             case Evenements\Ferie::class:
             case Evenements\Fermeture::class:
             case Evenements\Conge::class:
@@ -49,8 +53,7 @@ class InjectableCreator
                 return new $classname($this->db);
             case \App\Libraries\ApiClient::class:
                 // TODO à supprimer quand on aura un vrai DI
-                $config = new \App\Libraries\Configuration(\includes\SQL::singleton());
-                $baseURIApi = $config->getUrlAccueil() . '/api/';
+                $baseURIApi = $this->config->getUrlAccueil() . '/api/';
 
                 $client = new \GuzzleHttp\Client([
                     'base_uri' => $baseURIApi,
