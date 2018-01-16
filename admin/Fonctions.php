@@ -377,5 +377,4 @@ class Fonctions
             echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=admin_index.php?onglet=admin-users\">";
         }
     }
-
 }

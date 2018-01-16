@@ -25,6 +25,10 @@ class ComposerStaticInitfd23b7dd905d561816f77d072cde6740
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
         ),
+        'L' => 
+        array (
+            'LibertAPI\\' => 10,
+        ),
         'I' => 
         array (
             'Interop\\Container\\' => 18,
@@ -38,6 +42,12 @@ class ComposerStaticInitfd23b7dd905d561816f77d072cde6740
         'F' => 
         array (
             'FastRoute\\' => 10,
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Common\\Inflector\\' => 26,
+            'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
         ),
     );
 
@@ -57,6 +67,10 @@ class ComposerStaticInitfd23b7dd905d561816f77d072cde6740
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'LibertAPI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/Libertempo/libertempo-api',
         ),
         'Interop\\Container\\' => 
         array (
@@ -78,11 +92,22 @@ class ComposerStaticInitfd23b7dd905d561816f77d072cde6740
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
+        'Doctrine\\Common\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
+        ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
+        ),
     );
 
     public static $fallbackDirsPsr4 = array (
         0 => __DIR__ . '/../..' . '/',
-        1 => __DIR__ . '/..' . '/Libertempo/libertempo-api',
     );
 
     public static $prefixesPsr0 = array (
@@ -91,6 +116,25 @@ class ComposerStaticInitfd23b7dd905d561816f77d072cde6740
             'Pimple' => 
             array (
                 0 => __DIR__ . '/..' . '/pimple/pimple/src',
+            ),
+        ),
+        'D' => 
+        array (
+            'Doctrine\\DBAL\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/dbal/lib',
+            ),
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
+            'Doctrine\\Common\\Collections\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
+            ),
+            'Doctrine\\Common\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/common/lib',
             ),
         ),
         'C' => 
@@ -110,6 +154,7 @@ class ComposerStaticInitfd23b7dd905d561816f77d072cde6740
         'CAS_GracefullTerminationException' => __DIR__ . '/..' . '/jasig/phpcas/source/CAS/GracefullTerminationException.php',
         'CAS_InvalidArgumentException' => __DIR__ . '/..' . '/jasig/phpcas/source/CAS/InvalidArgumentException.php',
         'CAS_Languages_Catalan' => __DIR__ . '/..' . '/jasig/phpcas/source/CAS/Languages/Catalan.php',
+        'CAS_Languages_ChineseSimplified' => __DIR__ . '/..' . '/jasig/phpcas/source/CAS/Languages/ChineseSimplified.php',
         'CAS_Languages_English' => __DIR__ . '/..' . '/jasig/phpcas/source/CAS/Languages/English.php',
         'CAS_Languages_French' => __DIR__ . '/..' . '/jasig/phpcas/source/CAS/Languages/French.php',
         'CAS_Languages_German' => __DIR__ . '/..' . '/jasig/phpcas/source/CAS/Languages/German.php',
