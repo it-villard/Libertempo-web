@@ -144,25 +144,34 @@ class Utilisateur
      *
      * @param string $login
      *
-     * @return string $donnees
+     * @return string
      */
     public static function getDonneesUtilisateur($login)
     {
-        if ($config->isUsersExportFromLdap()) {
-            $injectableCreator = new \App\Libraries\InjectableCreator($sql, $config);
-            $ldap = $injectableCreator->get(\App\Libraries\Ldap::class);
-        }
+        $utilisateurs = self::getDonneesUtilisateurs([$login]);
+        reset($utilisateurs);
+
+        return current($utilisateurs);
+    }
+
+    /**
+     * Retour les informations d'un tableau d'utilisateurs
+     *
+     * @param array $logins ['login1', 'login2']
+     *
+     * @return array
+     */
+    public static function getDonneesUtilisateurs(array $logins)
+    {
         $sql = \includes\SQL::singleton();
-        $config = new \App\Libraries\Configuration($sql);
+        $escapedLogins = array_map([$sql, 'quote'], $logins);
         $req = 'SELECT *
                 FROM conges_users
-                WHERE u_login = \''.  \includes\SQL::quote($login).'\'';
-        $res = $sql->query($req);
-        $donnees = $res->fetch_array();
-        if ($config->isUsersExportFromLdap()) {
-            $donnees['u_email'] = $ldap->getEmailUser($data['u_login']);
-        }
-        return $donnees;
+                WHERE u_login IN ("' . implode('", "', $escapedLogins) . '")
+                ORDER BY u_nom, u_prenom';
+        $query = $sql->query($req);
+
+        return $query->fetch_all();
     }
 
     /**
