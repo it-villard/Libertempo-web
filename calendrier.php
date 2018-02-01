@@ -28,11 +28,6 @@ function getUrlMois(\DateTimeInterface $date, $idGroupe)
 
 function getClassesJour(\App\Libraries\Calendrier\Evenements $evenements, $nom, $jour, \DateTimeInterface $moisDemande)
 {
-    $moisJour = date('m', strtotime($jour));
-    if ($moisDemande->format('m') !== $moisJour) {
-        return 'horsMois';
-    }
-
     return implode(' ', $evenements->getEvenementsDate($nom, $jour));
 }
 
@@ -69,10 +64,9 @@ if (!empty($_GET['groupe']) && NIL_INT != $_GET['groupe']) {
 }
 $utilisateursATrouver = \App\ProtoControllers\Groupe\Utilisateur::getListUtilisateurByGroupeIds($groupesAVoir);
 
-$employesATrouver = [];
-foreach ($utilisateursATrouver as $nom) {
-    $employe = \App\ProtoControllers\Utilisateur::getDonneesUtilisateur($nom)[$nom];
-    $employesATrouver[$nom] = \App\ProtoControllers\Utilisateur::getNomComplet($employe['u_prenom'], $employe['u_nom'], true);
+$employes = \App\ProtoControllers\Utilisateur::getDonneesUtilisateurs($utilisateursATrouver);
+foreach ($employes as $employe) {
+    $employesATrouver[$employe['u_login']] = \App\ProtoControllers\Utilisateur::getNomComplet($employe['u_prenom'], $employe['u_nom'], true);
 }
 
 header_menu('', 'Libertempo : '._('calendrier_titre'));
