@@ -25,13 +25,6 @@ if ( $config->getHowToConnectUser() == "cas") {
         if ($usernameCAS == "") {
                 header_error();
 
-	// Si CAS alors on utilise le login CAS pour la session
-	if ( $config->getHowToConnectUser() == "cas" && $_GET['cas'] != "no" ) {
-	        //redirection vers l'url d'authentification CAS
-	        $usernameCAS = authentification_passwd_conges_CAS();
-	        if ($usernameCAS == "") {
-	                header_error();
-
 	                echo  _('session_pas_de_compte_dans_dbconges') ."<br>\n";
 	                echo  _('session_contactez_admin') ."\n";
 
