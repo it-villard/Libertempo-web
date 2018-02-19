@@ -72,7 +72,8 @@ class Groupe
     {
         $req = 'SELECT DISTINCT g_gid,g_groupename,g_comment,g_double_valid
                 FROM conges_groupe CG
-                INNER JOIN conges_groupe_users CGU ON (CG.g_gid = CGU.gu_gid);';
+                INNER JOIN conges_groupe_users CGU ON (CG.g_gid = CGU.gu_gid)
+                ORDER BY g_groupename ASC;';
         $result = $sql->query($req);
 
         $groupes = [];
@@ -146,7 +147,7 @@ class Groupe
         $req = 'SELECT EXISTS (
                     SELECT gr_gid
                     FROM conges_groupe_resp
-                    WHERE gr_gid IN (\'' . implode(',', $groupesId) . '\')
+                    WHERE gr_gid IN (' . implode(',', $groupesId) . ')
                         AND gr_login = "' . $sql->quote($resp) . '"
                 )';
         $query = $sql->query($req);
@@ -167,7 +168,7 @@ class Groupe
         $req = 'SELECT EXISTS (
                     SELECT ggr_gid
                     FROM conges_groupe_grd_resp
-                    WHERE ggr_gid IN (\'' . implode(',', $groupesId) . '\')
+                    WHERE ggr_gid IN (' . implode(',', $groupesId) . ')
                         AND ggr_login = "' . $sql->quote($resp) . '"
                 )';
         $query = $sql->query($req);

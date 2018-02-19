@@ -54,6 +54,28 @@ class Responsable
     }
 
     /**
+     * Retourne le login des utilisateurs d'un responsable direct
+     *
+     * @param string $resp
+     *
+     * @return array $users
+     */
+    public static function getUsersRespDirect($resp)
+    {
+
+        $users = [];
+
+         $sql = \includes\SQL::singleton();
+         $req = 'SELECT u_login FROM `conges_users` WHERE u_resp_login ="'. $resp . '"';
+         $res = $sql->query($req);
+
+         while ($data = $res->fetch_array()) {
+            $users[] = $data['u_login'];
+         }
+         return $users;
+    }
+
+    /**
      * Vérifie si le responsable est absent
      *
      * @param string $resp identifiant du responsable
@@ -78,12 +100,12 @@ class Responsable
     public static function getLoginGrandResponsableUtilisateur($user)
     {
         $groupesIdUser = \App\ProtoControllers\Utilisateur::getGroupesId($user);
-        
+
         $grandResp = [];
         $sql = \includes\SQL::singleton();
         $req = 'select ggr_login FROM conges_groupe_grd_resp where ggr_gid  IN (\'' . implode(',', $groupesIdUser) . '\')';
         $res = $sql->query($req);
-        
+
         while ($data = $res->fetch_array()) {
              $grandResp[] = $data['ggr_login'];
         }
@@ -96,7 +118,7 @@ class Responsable
      * @param string $user
      * @return array
      */
-    public static function getResponsablesUtilisateur($user) 
+    public static function getResponsablesUtilisateur($user)
     {
         return \App\ProtoControllers\Groupe\Responsable::getListResponsableByGroupeIds(\App\ProtoControllers\Utilisateur::getGroupesId($user));
     }
@@ -118,7 +140,7 @@ class Responsable
             $req .= ' AND u_is_active = "Y"';
         }
         $query = $sql->query($req);
-        
+
         return $sql->query($req)->fetch_all(\MYSQLI_ASSOC);
     }
 
